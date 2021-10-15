@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import '@babel/polyfill';
+// import '@babel/polyfill';
 import {Switch, Route, Redirect} from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router'
 import {PersistGate} from 'redux-persist/es/integration/react';
-import {isMobile} from "react-device-detect";
 import {Provider} from 'react-redux';
 import CapturePhoto from './screens/CapturePhoto';
 import EulaPage from './screens/Eula';
@@ -32,25 +31,7 @@ class App extends Component {
 
     componentDidMount() {
         console.log("App: componentDidMount");
-        if (process.env.REACT_APP_MOBILE_ONLY === 'true') {
-            if (!isMobile) {
-                this.props.routerHistory.replace('/error/mobileonly');
-                document.body.classList.add('mobile-only');
-                this.setState({isAcuantSdkLoaded: true});
-            } else {
-                if (!this.props.config) {
-                    this.props.routerHistory.replace('/');
-                }
-                this.loadScript();
-            }
-        } else {
-            if (!this.props.config) {
-                this.props.routerHistory.replace('/');
-            }
-            this.loadScript();
-        }
-        
-  
+        this.loadScript();  
     }
 
     loadScript(){
@@ -147,9 +128,6 @@ class App extends Component {
 
     render() {
         console.log("App: render")
-        if (!localStorage.getItem('acuantEula') && this.props.routerHistory.location.pathname !== "/eula") {
-            this.props.routerHistory.push("/eula")
-        } 
         
         return (
             <div className={'mainContent'}>
