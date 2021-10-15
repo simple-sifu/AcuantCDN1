@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
 // import '@babel/polyfill';
-import {Switch, Route, Redirect} from 'react-router-dom';
-import { ConnectedRouter } from 'connected-react-router'
-import {PersistGate} from 'redux-persist/es/integration/react';
-import {Provider} from 'react-redux';
-import CapturePhoto from './screens/CapturePhoto';
-import EulaPage from './screens/Eula';
-import CaptureSelfie from './screens/CaptureSelfie';
-import Results from './screens/Results/index';
-import Error from './screens/Error/index';
+// import {Switch, Route, Redirect} from 'react-router-dom';
+// import { ConnectedRouter } from 'connected-react-router'
+// import {PersistGate} from 'redux-persist/es/integration/react';
+// import {Provider} from 'react-redux';
+import CapturePhotoConfirm from './screens/CapturePhotoConfirm';
+// import EulaPage from './screens/Eula';
+// import CaptureSelfie from './screens/CaptureSelfie';
+// import Results from './screens/Results/index';
+// import Error from './screens/Error/index';
 import "./styles/main.css";
-import ProcessedImageResult from "./screens/ProcessedImageResult";
-import AcuantReactCamera from "./screens/AcuantReactCamera";
+// import ProcessedImageResult from "./screens/ProcessedImageResult";
+// import AcuantReactCamera from "./screens/AcuantReactCamera";
 /*
 global Raven
  */
@@ -132,22 +132,7 @@ class App extends Component {
         return (
             <div className={'mainContent'}>
                 {
-                    this.state.isAcuantSdkLoaded && <Provider store={this.props.store}>
-                    <PersistGate loading={null} persistor={this.props.persistor}>
-                        <ConnectedRouter history={this.props.routerHistory}>
-                            <Switch>
-                                <Redirect exact from="/" to="/capture/photo"/>
-                                <Route path='/eula' exact component={EulaPage}/>
-                                <Route path="/capture/photo" exact component={CapturePhoto}/>
-                                <Route path="/capture/camera" exact component={AcuantReactCamera}/>
-                                <Route path="/photo/confirm" exact component={ProcessedImageResult} />
-                                <Route path="/capture/selfie" exact component={CaptureSelfie}/>
-                                <Route path='/results' component={Results}/>
-                                <Route path="/error" component={Error}/>
-                            </Switch>
-                        </ConnectedRouter>
-                    </PersistGate>
-                </Provider>
+                    this.state.isAcuantSdkLoaded && <CapturePhotoConfirm/>
                 }
             </div>
         );

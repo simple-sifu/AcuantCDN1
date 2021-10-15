@@ -1,12 +1,8 @@
 import React, { Component, Fragment } from 'react';
-import { bindActionCreators } from "redux";
-import { connect } from "react-redux";
 import Header from "./Header";
-import { decrementSidesLeft, setCardOrientation, setCardType } from "./actions/idPropertiesActions";
-import { setInstanceID, submitBackID, submitFrontID } from "./actions/configActions";
 import Processing from "./Processing";
 
-class CapturePhoto extends Component {
+class CapturePhotoFirm extends Component {
 
     constructor(props) {
         super(props);
@@ -21,9 +17,6 @@ class CapturePhoto extends Component {
     }
 
     componentDidMount() {
-        if (!this.props.instanceID) {
-            this.props.setInstanceID();
-        }
         if (this.props.location && this.props.location.state) {
             if (this.props.location.state.isRetry) {
                 this.navigateCamera();
@@ -123,19 +116,5 @@ class CapturePhoto extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        instanceID: state.config.instanceID,
-        orientation: state.idProperties.orientation,
-        cardType: state.idProperties.cardType,
-        sidesLeft: state.idProperties.sidesLeft,
-        frontSubmitted: state.config.frontSubmitted,
-        backSubmitted: state.config.backSubmitted
-    };
-}
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ setCardType, setInstanceID, setCardOrientation, decrementSidesLeft, submitFrontID, submitBackID }, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(CapturePhoto);
+export default CapturePhotoFirm;
