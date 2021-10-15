@@ -20,6 +20,7 @@ global Raven
 class App extends Component {
 
     constructor(props){
+        console.log("App: constructor");
         super(props);
         this.state = {
             isAcuantSdkLoaded: false
@@ -30,7 +31,7 @@ class App extends Component {
 
 
     componentDidMount() {
-
+        console.log("App: componentDidMount");
         if (process.env.REACT_APP_MOBILE_ONLY === 'true') {
             if (!isMobile) {
                 this.props.routerHistory.replace('/error/mobileonly');
@@ -53,6 +54,7 @@ class App extends Component {
     }
 
     loadScript(){
+        console.log("App: loadScript");
         // Form absolute URL if not CDN
         function getWorkerURL(url){
             if(url.includes("http")){
@@ -81,6 +83,7 @@ class App extends Component {
         }
         // Initialize SDK
         window.onAcuantSdkLoaded = function(){
+            console.log("window.onAcuantSdkLoaded");
             this.initialize();
         }.bind(this);
 
@@ -106,20 +109,24 @@ class App extends Component {
     }
 
     initialize(){
+        console.log("App: initialize");
         if(!this.isInitialized && !this.isIntializing){
             this.isIntializing = true;
             window.AcuantJavascriptWebSdk.initialize(
                 (function(){
                     if(process.env.NODE_ENV === 'development'){
+                        console.log("AcuantJavascriptWebSdk.initialize: btoa");
                         return btoa(`${process.env.REACT_APP_USER_NAME}:${process.env.REACT_APP_PASSWORD}`);
                     }
                     else{
+                        console.log("AcuantJavascriptWebSdk.initialize: Authtoken");
                         return process.env.REACT_APP_AUTH_TOKEN;
                     }
                 })(), 
                 process.env.REACT_APP_ACAS_ENDPOINT,
                 {
                     onSuccess:function(){
+                        console.log("AcuantJavascriptWebSdk.initialize: onSuccess");
                         this.isInitialized = true;
                         this.isIntializing = false;
                         this.setState({
@@ -128,6 +135,7 @@ class App extends Component {
                     }.bind(this),
 
                     onFail: function(){
+                        console.log("AcuantJavascriptWebSdk.initialize: onFail");
                         this.isIntializing = false;
                         this.setState({
                             isAcuantSdkLoaded:true
@@ -138,6 +146,7 @@ class App extends Component {
     }
 
     render() {
+        console.log("App: render")
         if (!localStorage.getItem('acuantEula') && this.props.routerHistory.location.pathname !== "/eula") {
             this.props.routerHistory.push("/eula")
         } 
